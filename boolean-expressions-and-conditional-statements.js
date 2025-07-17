@@ -26,21 +26,53 @@ Paste the following code into your editor:
 
 const readline = require('readline-sync');
 
+// Inventory flags
 const hasTorch = true;
 const hasMap = false;
+const hasSword = true;
+const hasCompass = true;
 
-console.log("You see two paths: one leads to the mountains, the other to the village.");
-const choice = readline.question("Do you go to the 'mountains' or the 'village'?");
+console.log("You wake up in a misty forest with a few supplies.");
+console.log("In your bag: " + 
+  (hasTorch ? "Torch " : "") + 
+  (hasMap ? "Map " : "") + 
+  (hasSword ? "Sword " : "") + 
+  (hasCompass ? "Compass" : "")
+);
+console.log("\nYou see two paths: one leads to the mountains, the other to the village.");
+const choice = readline.question("Do you go to the 'mountains' or the 'village'? ");
 
-if (choice === "mountains" && hasTorch) {
-  console.log("You safely navigate through the dark mountains.");
-} else if (choice === "mountains" && !hasTorch) {
-  console.log("It's too dark to proceed. You decide to turn back.");
-} else if (choice === "village" || hasMap) {
-  console.log("You find your way to the village.");
+if (choice === "mountains") {
+  if (hasTorch && hasCompass) {
+    console.log("You safely climb through the dark and winding mountains with help from your compass.");
+    console.log("Suddenly, a wild beast appears!");
+    if (hasSword) {
+      console.log("You bravely fight it off with your sword and survive!");
+    } else {
+      console.log("You try to run, but the beast catches you. Your journey ends here.");
+    }
+  } else if (hasTorch && !hasCompass) {
+    console.log("You can see, but without a compass, you lose your way and circle back.");
+  } else {
+    console.log("It's too dark to proceed. You decide to turn back.");
+  }
+} else if (choice === "village") {
+  if (hasMap || hasCompass) {
+    console.log("You find your way to the village.");
+    console.log("The villagers welcome you.");
+    const helpVillagers = readline.question("Do you help them with a mysterious task? (yes/no) ");
+    if (helpVillagers === "yes") {
+      console.log("They reward you with a magical shield and tell you a secret about the forest.");
+    } else {
+      console.log("They become suspicious of you. You leave quickly.");
+    }
+  } else {
+    console.log("Without a map or compass, you get lost in the woods outside the village.");
+  }
 } else {
-  console.log("You get lost and wander aimlessly.");
+  console.log("You wander in an unknown direction and eventually get lost.");
 }
+
 
 /* 
 
